@@ -7,10 +7,13 @@ import streamlit as st
 st.set_page_config(page_title="Air Quality Dashboard", layout="wide")
 
 # Load data
-df = pd.read_csv("dashboard/main_data.csv")
-# current_dir = os.path.dirname(__file__)
-# file_path = os.path.join(current_dir, "main_data.csv")
-# df = pd.read_csv(file_path)
+# df = pd.read_csv("dashboard/main_data.csv")
+current_dir = os.path.dirname(__file__)
+data_path = os.path.join(current_dir, "main_data.csv")
+if not os.path.exists(data_path):
+    data_path = "dashboard/main_data.csv"
+
+df = pd.read_csv(data_path)
 df['datetime'] = pd.to_datetime(df['datetime'])
 
 st.title('Dashboard Analisis Kualitas Udara (PM2.5) ☁️')
@@ -19,7 +22,11 @@ Dashboard ini menyajikan analisis kualitas udara berdasarkan data 12 stasiun pem
 """)
 
 with st.sidebar:
-    st.image("dashboard/logo_udara.png")
+    # st.image("dashboard/logo_udara.png")
+    logo_path = os.path.join(current_dir, "logo_udara.png")
+    if os.path.exists(logo_path):
+        st.sidebar.image(logo_path)
+        
     st.header("Filter Data")
     # Multiselect untuk membandingkan stasiun
     selected_stations = st.multiselect(
