@@ -7,10 +7,10 @@ import streamlit as st
 st.set_page_config(page_title="Air Quality Dashboard", layout="wide")
 
 # Load data
-#df = pd.read_csv("dashboard/main_data.csv")
-current_dir = os.path.dirname(__file__)
-file_path = os.path.join(current_dir, "main_data.csv")
-df = pd.read_csv(file_path)
+df = pd.read_csv("dashboard/main_data.csv")
+# current_dir = os.path.dirname(__file__)
+# file_path = os.path.join(current_dir, "main_data.csv")
+# df = pd.read_csv(file_path)
 df['datetime'] = pd.to_datetime(df['datetime'])
 
 st.title('Dashboard Analisis Kualitas Udara (PM2.5) ☁️')
