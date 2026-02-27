@@ -1,4 +1,3 @@
-import os
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -7,13 +6,7 @@ import streamlit as st
 st.set_page_config(page_title="Air Quality Dashboard", layout="wide")
 
 # Load data
-# df = pd.read_csv("dashboard/main_data.csv")
-current_dir = os.path.dirname(__file__)
-data_path = os.path.join(current_dir, "main_data.csv")
-if not os.path.exists(data_path):
-    data_path = "dashboard/main_data.csv"
-
-df = pd.read_csv(data_path)
+df = pd.read_csv("dashboard/main_data.csv")
 df['datetime'] = pd.to_datetime(df['datetime'])
 
 st.title('Dashboard Analisis Kualitas Udara (PM2.5) ☁️')
@@ -22,11 +15,7 @@ Dashboard ini menyajikan analisis kualitas udara berdasarkan data 12 stasiun pem
 """)
 
 with st.sidebar:
-    # st.image("dashboard/logo_udara.png")
-    logo_path = os.path.join(current_dir, "logo_udara.png")
-    if os.path.exists(logo_path):
-        st.sidebar.image(logo_path)
-        
+    st.image("dashboard/logo_udara.png")
     st.header("Filter Data")
     # Multiselect untuk membandingkan stasiun
     selected_stations = st.multiselect(
@@ -42,15 +31,11 @@ main_df = df[df['station'].isin(selected_stations)]
 st.subheader('1. Perbandingan Rata-rata PM2.5 antar Stasiun')
 col1, col2 = st.columns([2, 1])
 
-with col1:
-    station_avg = main_df.groupby("station")["PM2.5"].mean().sort_values(ascending=False).reset_index()
-    fig, ax = plt.subplots(figsize=(10, 6))
-    sns.barplot(x="PM2.5", y="station", data=station_avg, hue="station", palette="Reds_r", legend=False, ax=ax)
-    ax.set_xlabel("Rata-rata PM2.5 (µg/m³)")
-    st.pyplot(fig)
-
-with col2:
-    st.write("Insight: Grafik ini menjawab stasiun mana yang memiliki kualitas udara terburuk dan terbaik.")
+station_avg = main_df.groupby("station")["PM2.5"].mean().sort_values(ascending=False).reset_index()
+fig, ax = plt.subplots(figsize=(10, 6))
+sns.barplot(x="PM2.5", y="station", data=station_avg, hue="station", palette="Reds_r", legend=False, ax=ax)
+ax.set_xlabel("Rata-rata PM2.5 (µg/m³)")
+st.pyplot(fig)
 
 
 # VISUALISASI 2: TREN BULANAN
@@ -67,7 +52,7 @@ st.pyplot(fig)
 
 
 # VISUALISASI 3: POLA MUSIMAN
-st.subheader('3. Rata-rata PM2.5 Berdasarkan Musim')
+st.subheader('3. Pola Rata-rata PM2.5 Berdasarkan Musim')
 season_avg = main_df.groupby("season")["PM2.5"].mean().sort_values(ascending=False).reset_index()
 
 fig, ax = plt.subplots(figsize=(8, 5))
