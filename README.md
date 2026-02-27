@@ -13,10 +13,13 @@ pip install -r requirements.txt
 ## Setup Environment - Shell/Terminal
 ```
 python -m venv venv
+
 # Untuk Mac/Linux
 source venv/bin/activate
+
 # Untuk Windows
 venv\Scripts\activate
+
 pip install -r requirements.txt
 ```
 
